@@ -1,6 +1,6 @@
 {
   "name": "geojsonwkt",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "",
   "main": "./index.js",
   "types": "./dist/types/index.d.ts",
@@ -9,9 +9,9 @@
   "files": [
     "dist"
   ],
-  "exports":{
-    "require":"./index.js",
-    "import":"./index.mjs"
+  "exports": {
+    "require": "./index.js",
+    "import": "./index.mjs"
   },
   "repository": {
     "type": "git",
