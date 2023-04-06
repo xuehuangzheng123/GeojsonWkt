@@ -1,5 +1,6 @@
-//geojson 转 wkt 
 
+##### geojson 转 wkt  
+```js
 import {geojsonToWkt} from 'geojsonwkt'
 const geojson = {
     "type": "Polygon",
@@ -8,10 +9,12 @@ const geojson = {
     ]
 }
 const wkt = geojsonToWkt(geojson) // POLYGON((100 0,101 0,101 1,100 1,100 0))
+```
 
 
-//wkt 转 geojson 
-
+##### wkt 转 geojson  
+```js
 import {wktToGeojson} from 'geojsonwkt'
 const wkt = 'POLYGON((100 0,101 0,101 1,100 1,100 0))'
 const geojson = wktToGeojson(wkt) // {"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[100,0],[101,0],[101,1],[100,1],[100,0]]]}}
+```
