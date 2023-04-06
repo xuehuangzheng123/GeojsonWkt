@@ -3,8 +3,8 @@
 ```js
 import {geojsonToWkt} from 'geojsonwkt'
 const geojson = {
-    "type": "Polygon",
-    "coordinates": [
+    type: "Polygon",
+    coordinates: [
         [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]
     ]
 }
