@@ -1,6 +1,6 @@
 {
   "name": "geojsonwkt",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "geojson to wkt ",
   "main": "./dist/index.cjs.js",
   "types": "./dist/types/index.d.ts",
