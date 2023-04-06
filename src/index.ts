@@ -8,7 +8,6 @@ type FeatureType<T = {}> = {
   id?: string | number
   bbox?: number[]
   geometry?: GeometryType
-  geometries?: GeometryType[]
   properties?: T
 }
 type GeojsonType<T = {}, K = {}> = {
@@ -50,7 +49,7 @@ function wktToGeometry(wkt: string) {
       })
       geometry = { type: 'MultiPoint', coordinates: coords }
     } else if (type === 'POLYGON') {
-      const resArr = wkt.split('),(')
+      const resArr = wkt.split(/,(?=\()/)
       const coords: number[][][] = []
       resArr.forEach((item) => {
         const res = item.match(/(-*\d+\.*\d*\s-*\d+\.*\d*)/g)
@@ -62,7 +61,7 @@ function wktToGeometry(wkt: string) {
       })
       geometry = { type: 'Polygon', coordinates: coords }
     } else if (type === 'MULTILINESTRING') {
-      const resArr = wkt.split('),(')
+      const resArr = wkt.split(/,(?=\()/)
       const coords: number[][][] = []
       resArr.forEach((item) => {
         const res = item.match(/(-*\d+\.*\d*\s-*\d+\.*\d*)/g)
