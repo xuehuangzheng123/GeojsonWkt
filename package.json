@@ -2,12 +2,17 @@
   "name": "geojsonwkt",
   "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "./index.js",
   "types": "./dist/types/index.d.ts",
+  "module": "./dist/index.esm.js",
   "type": "module",
   "files": [
     "dist"
   ],
+  "exports":{
+    "require":"./index.js",
+    "import":"./index.mjs"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/xuehuangzheng123/GeojsonWkt.git"
