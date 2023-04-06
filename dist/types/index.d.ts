@@ -25,7 +25,6 @@ type GeojsonType<T = {}, K = {}> = {
     features?: FeatureType<T>[];
     gid?: number;
 };
-export declare function wktToGeometry(wkt: string): GeometryType | undefined;
 export declare function wktToGeojson(wkt: string): {
     type: string;
     geometry: GeometryType | undefined;
