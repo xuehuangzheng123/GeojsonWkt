@@ -1,7 +1,7 @@
 {
   "name": "geojsonwkt",
   "version": "1.0.5",
-  "description": "",
+  "description": "geojson to wkt ",
   "main": "./dist/index.cjs.js",
   "types": "./dist/types/index.d.ts",
   "module": "./dist/index.esm.js",
@@ -20,7 +20,7 @@
     "build": "npm run build:types && rollup -c",
     "prepublish": "pnpm version && pnpm build"
   },
-  "keywords": [],
+  "keywords": ["geojson","wkt"],
   "author": "",
   "license": "ISC",
   "publishConfig": {
