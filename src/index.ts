@@ -26,7 +26,7 @@ type GeojsonType<T = {}, K = {}> = {
   gid?: number
 }
 // wkt转geojson
-export function wktToGeometry(wkt: string) {
+function wktToGeometry(wkt: string) {
   try {
     const type = wkt.match(/^[A-Z]+(?=\()/)![0]
     let geometry: GeometryType | undefined
@@ -141,12 +141,12 @@ function geometryToWkt(geometry: GeometryType) {
 
   switch (type.toUpperCase()) {
     case 'POINT':
-      wktCoords.push(coords.join(' '))
+      wktCoords.push(coords.slice(0, 2).join(' '))
       break
     case 'LINESTRING':
     case 'MULTIPOINT':
       coords.forEach((item) => {
-        item instanceof Array && wktCoords.push(item.join(' '))
+        item instanceof Array && wktCoords.push(item.slice(0, 2).join(' '))
       })
       break
     case 'POLYGON':
@@ -155,7 +155,7 @@ function geometryToWkt(geometry: GeometryType) {
         const ringCoords: string[] = []
         item instanceof Array &&
           item.forEach((ele) => {
-            ele instanceof Array && ringCoords.push(ele.join(' '))
+            ele instanceof Array && ringCoords.push(ele.slice(0, 2).join(' '))
           })
         wktCoords.push(`(${ringCoords.join(',')})`)
       })
@@ -168,7 +168,8 @@ function geometryToWkt(geometry: GeometryType) {
             const ringCoords: string[] = []
             ele instanceof Array &&
               ele.forEach((mem) => {
-                mem instanceof Array && ringCoords.push(mem.join(' '))
+                mem instanceof Array &&
+                  ringCoords.push(mem.slice(0, 2).join(' '))
               })
             polyCoords.push(`(${ringCoords.join(',')})`)
           })
