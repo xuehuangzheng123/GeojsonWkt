@@ -8,7 +8,6 @@ type FeatureType<T = {}> = {
     id?: string | number;
     bbox?: number[];
     geometry?: GeometryType;
-    geometries?: GeometryType[];
     properties?: T;
 };
 type GeojsonType<T = {}, K = {}> = {
