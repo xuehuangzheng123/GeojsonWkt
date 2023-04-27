@@ -180,6 +180,10 @@ function geometryToWkt(geometry: GeometryType) {
 }
 
 export function geojsonToWkt(geojson: GeojsonType) {
+  if(!geojson) {
+    console.log('没有数据');
+    return
+  }
   if (
     [
       'POINT',
