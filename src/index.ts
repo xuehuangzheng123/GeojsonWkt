@@ -123,9 +123,11 @@ export function wktToGeojson(wkt: string) {
       wkt = wkt.substring(19, wkt.length - 1)
       const resArr = wkt.split(/,(?=[A-Z]+)/)
       const features: FeatureType[] = []
-      resArr.forEach((item) => {
-        features.push({ type: 'Feature', geometry: wktToGeometry(item) })
-      })
+      for (let i = 0; i < resArr.length; i++) {
+        const geometry = wktToGeometry(resArr[i])
+        if (!geometry) return
+        features.push({ type: 'Feature', geometry })
+      }
       return { type: 'FeatureCollection', features }
     }
   } catch (error) {
