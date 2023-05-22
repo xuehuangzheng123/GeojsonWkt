@@ -26,12 +26,12 @@ type GeojsonType<T = {}, K = {}> = {
 };
 export declare function wktToGeojson(wkt: string): {
     type: string;
-    geometry: GeometryType | undefined;
-    features?: undefined;
-} | {
-    type: string;
     features: FeatureType<{}>[];
     geometry?: undefined;
+} | {
+    type: string;
+    geometry: GeometryType | undefined;
+    features?: undefined;
 } | undefined;
 export declare function geojsonToWkt(geojson: GeojsonType): string | undefined;
 export {};

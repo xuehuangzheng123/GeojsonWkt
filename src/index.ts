@@ -108,18 +108,7 @@ export function wktToGeojson(wkt: string) {
       .replaceAll(' )', ')')
       .replaceAll(') ', ')')
     const type = wkt.match(/^[A-Z]+(?=\()/)![0]
-    if (
-      [
-        'POINT',
-        'LINESTRING',
-        'POLYGON',
-        'MULTIPOINT',
-        'MULTILINESTRING',
-        'MULTIPOLYGON',
-      ].includes(type)
-    ) {
-      return { type: 'Feature', geometry: wktToGeometry(wkt) }
-    } else if (type === 'GEOMETRYCOLLECTION') {
+    if (type === 'GEOMETRYCOLLECTION') {
       wkt = wkt.substring(19, wkt.length - 1)
       const resArr = wkt.split(/,(?=[A-Z]+)/)
       const features: FeatureType[] = []
@@ -129,6 +118,30 @@ export function wktToGeojson(wkt: string) {
         features.push({ type: 'Feature', geometry })
       }
       return { type: 'FeatureCollection', features }
+    } else {
+      const resArr = wkt.split(/,(?=[A-Z]+)/)
+      if (resArr.length > 1) {
+        const features: FeatureType[] = []
+        for (let i = 0; i < resArr.length; i++) {
+          const geometry = wktToGeometry(resArr[i])
+          if (!geometry) return
+          features.push({ type: 'Feature', geometry })
+        }
+        return { type: 'FeatureCollection', features }
+      } else {
+        if (
+          [
+            'POINT',
+            'LINESTRING',
+            'POLYGON',
+            'MULTIPOINT',
+            'MULTILINESTRING',
+            'MULTIPOLYGON',
+          ].includes(type)
+        ) {
+          return { type: 'Feature', geometry: wktToGeometry(wkt) }
+        }
+      }
     }
   } catch (error) {
     console.log('格式解析出错', error)
