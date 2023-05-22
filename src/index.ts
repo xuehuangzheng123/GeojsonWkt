@@ -27,7 +27,7 @@ type GeojsonType<T = {}, K = {}> = {
 // wkt转geojson
 function wktToGeometry(wkt: string) {
   try {
-    const type = wkt.match(/^[A-Z]+(?=\()/)![0]
+    const type = wkt.match(/^[A-Z]+(?=\()/)![0].toUpperCase()
     let geometry: GeometryType | undefined
 
     if (type === 'POINT') {
@@ -107,7 +107,7 @@ export function wktToGeojson(wkt: string) {
       .replaceAll('( ', '(')
       .replaceAll(' )', ')')
       .replaceAll(') ', ')')
-    const type = wkt.match(/^[A-Z]+(?=\()/)![0]
+    const type = wkt.match(/^[A-Z]+(?=\()/)![0].toUpperCase()
     if (type === 'GEOMETRYCOLLECTION') {
       wkt = wkt.substring(19, wkt.length - 1)
       const resArr = wkt.split(/,(?=[A-Z]+)/)
