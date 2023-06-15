@@ -30,8 +30,8 @@ export declare function wktToGeojson(wkt: string): {
     geometry?: undefined;
 } | {
     type: string;
-    geometry: GeometryType | undefined;
+    geometry: GeometryType;
     features?: undefined;
 } | undefined;
-export declare function geojsonToWkt(geojson: GeojsonType): string | undefined;
+export declare function geojsonToWkt(geojson: GeojsonType): string;
 export {};
