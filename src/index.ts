@@ -129,7 +129,7 @@ export function wktToGeojson(wkt: string) {
   try {
     wkt = wkt
       .replaceAll('\n', '')
-      .replaceAll('  ', '')
+      .replaceAll(/\s+/g, ' ')
       .replaceAll(' ,', ',')
       .replaceAll(', ', ',')
       .replaceAll(' (', '(')
