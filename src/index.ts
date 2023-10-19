@@ -11,6 +11,7 @@ import {
   GeometryCollection,
   FeatureCollection,
 } from 'geojson'
+import {createMaskPolygon}from './createMask'
 type GeometryExcludeCollection =
   | Point
   | MultiPoint
@@ -428,3 +429,5 @@ function handleGeometries(geometries: any) {
   }
   return wkts.join(',')
 }
+
+export default createMaskPolygon
