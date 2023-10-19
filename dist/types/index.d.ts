@@ -1,4 +1,5 @@
 import { Feature, Geometry, GeoJSON } from 'geojson';
+import { createMaskPolygon } from './createMask';
 export declare function wktToGeojson(wkt: string): {
     type: string;
     features: Feature<Geometry, import("geojson").GeoJsonProperties>[];
@@ -9,3 +10,4 @@ export declare function wktToGeojson(wkt: string): {
     features?: undefined;
 } | undefined;
 export declare function geojsonToWkt(geojson: GeoJSON): string;
+export default createMaskPolygon;
