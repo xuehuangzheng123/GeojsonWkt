@@ -20,73 +20,77 @@ type GeometryExcludeCollection =
   | Polygon
   | MultiPolygon
 
-
-export function createMaskPolygon(geojson: GeoJSON):GeoJSON | undefined{
-  if(!geojson) {
-    console.log('没有geojson数据');
-    return undefined;
+export function createMaskPolygon(geojson: GeoJSON): GeoJSON | undefined {
+  if (!geojson) {
+    console.log('没有geojson数据')
+    return undefined
   }
-  const {type} = geojson;
-  if(!type) {
-    console.log('没有解析到type');
-    return undefined;
+  const { type } = geojson
+  if (!type) {
+    console.log('没有解析到type')
+    return undefined
   }
   const newType = type.toLowerCase()
   try {
     if (newType === 'featurecollection') {
       const { features } = geojson as FeatureCollection
-      const unionFeatures : Feature[] = []
-      features.forEach((item)=>{
+      const unionFeatures: Feature[] = []
+      features.forEach((item) => {
         if (item.geometry.type.toLowerCase() === 'geometrycollection') {
-          const geo = unionGeometries(item.geometry as GeometryCollection);
+          const geo = unionGeometries(item.geometry as GeometryCollection)
           unionFeatures.push(geo as any)
         } else {
           unionFeatures.push(item)
         }
       })
       //@ts-ignore
-      const unionPolygon = turf.union(...unionFeatures);
-      const masked = createMaskByUnion(unionPolygon as any);
-      return masked;
+      let unionPolygon: any = unionFeatures.shift()
+      for (const item of unionFeatures) {
+        unionPolygon = turf.union(unionPolygon, item as any)
+      }
+      const masked = createMaskByUnion(unionPolygon as any)
+      return masked
     } else if (newType === 'feature') {
       const { geometry } = geojson as Feature
       if (geometry.type.toLowerCase() === 'geometrycollection') {
-        const unionPolygon = unionGeometries(geometry as GeometryCollection);
-        const masked = createMaskByUnion(unionPolygon as any);
-        return masked;
+        const unionPolygon = unionGeometries(geometry as GeometryCollection)
+        const masked = createMaskByUnion(unionPolygon as any)
+        return masked
       } else {
-        const masked = createMaskByUnion(geojson as Feature);
-        return masked;
+        const masked = createMaskByUnion(geojson as Feature)
+        return masked
       }
     } else {
       const feature: Feature = {
         type: 'Feature',
         geometry: geojson as GeometryExcludeCollection,
-        properties: {}
+        properties: {},
       }
-      const masked = createMaskByUnion(feature);
-      return masked;
+      const masked = createMaskByUnion(feature)
+      return masked
     }
   } catch (error) {
-    console.log('生成遮罩发生错误',error)
+    console.log('生成遮罩发生错误', error)
   }
 }
 
-function unionGeometries(geometry:GeometryCollection) {
+function unionGeometries(geometry: GeometryCollection) {
   const { geometries } = geometry
   const newGeometries = geometries.map((item) => {
     return {
       type: 'Feature',
-      geometry: item
+      geometry: item,
     }
   })
-  //@ts-ignore
-  const unionPolygon = turf.union(...newGeometries);
+  let unionPolygon: any = newGeometries.shift()
+  for (const item of newGeometries) {
+    unionPolygon = turf.union(unionPolygon, item as any)
+  }
   return unionPolygon
 }
 
 function createMaskByUnion(feature: Feature) {
-  const coor: any = [];
+  const coor: any = []
   // 中国的四至范围取整
   const bboxAll = [
     [73, 3],
@@ -94,43 +98,44 @@ function createMaskByUnion(feature: Feature) {
     [136, 54],
     [73, 54],
     [73, 3],
-  ];
-  const geometry: GeometryExcludeCollection = feature.geometry as GeometryExcludeCollection
+  ]
+  const geometry: GeometryExcludeCollection =
+    feature.geometry as GeometryExcludeCollection
   if (geometry.type.toLowerCase() === 'polygon') {
     geometry.coordinates.forEach((item: any, index: number) => {
       if (index === 0) {
-        coor.push([bboxAll, item]);
+        coor.push([bboxAll, item])
       } else {
-        coor.push(item);
+        coor.push(item)
       }
-    });
+    })
   } else if (geometry.type.toLowerCase() === 'multipolygon') {
-    const maskArr = [bboxAll];
+    const maskArr = [bboxAll]
     geometry.coordinates.forEach((item: any) => {
       if (item.length > 1) {
         item.forEach((ele: any, index: number) => {
           if (index === 0) {
-            maskArr.push(ele);
+            maskArr.push(ele)
           } else {
-            coor.push([ele]);
+            coor.push([ele])
           }
-        });
+        })
       } else {
-        maskArr.push(item[0]);
+        maskArr.push(item[0])
       }
-    });
-    coor.unshift(maskArr);
+    })
+    coor.unshift(maskArr)
   } else {
     // 先不考虑非面的情况
-    return undefined;
+    return undefined
   }
-  const result :Feature = {
+  const result: Feature = {
     type: 'Feature',
     geometry: {
       type: 'MultiPolygon',
       coordinates: coor,
     },
-    properties: {}
-  };
-  return result;
+    properties: {},
+  }
+  return result
 }

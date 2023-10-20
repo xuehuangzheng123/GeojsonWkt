@@ -1,13 +1,8 @@
-import { Feature, Geometry, GeoJSON } from 'geojson';
+import { geojsonToWkt, wktToGeojson } from './geojsonwkt';
 import { createMaskPolygon } from './createMask';
-export declare function wktToGeojson(wkt: string): {
-    type: string;
-    features: Feature<Geometry, import("geojson").GeoJsonProperties>[];
-    geometry?: undefined;
-} | {
-    type: string;
-    geometry: Geometry;
-    features?: undefined;
-} | undefined;
-export declare function geojsonToWkt(geojson: GeoJSON): string;
-export default createMaskPolygon;
+declare const _default: {
+    geojsonToWkt: typeof geojsonToWkt;
+    wktToGeojson: typeof wktToGeojson;
+    createMaskPolygon: typeof createMaskPolygon;
+};
+export default _default;
